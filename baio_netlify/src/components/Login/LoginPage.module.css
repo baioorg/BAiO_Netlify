@@ -1,0 +1,97 @@
+.bracket {
+    margin: auto;
+    max-width: 600px; 
+}
+
+.loginPage {
+    background-color: #fff;
+    max-width: 500em;
+    text-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.logincontent {
+    margin: 9em auto;
+    background-color: #fff;
+    color: black;
+    padding: 1.5em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(0, 0, 0);
+    width: 350px; /*change width of sign in panel*/
+}
+
+.logincontent h1 {
+    font-size: 15px;
+    font-weight: 100;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+}
+
+
+.newitemform {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.formrow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    max-width: 400em;
+    font-size: 14px;
+  }
+
+.formrow input {
+    border: 1px solid;
+    border-radius: 0.3em;
+    border-color: rgb(211, 209, 206);
+    height:30px;
+    padding: 10px;
+}
+
+.logincontainer {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logincontent h1 {
+    font-size: 15px;
+    font-weight: 100;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+}
+
+.btn {
+    color: rgb(255, 255, 255);
+    background-color: black;
+    padding: 0.25em 0.5em;
+    border: 1px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn:hover,
+.btn:focus-visible {
+    background: rgb(121, 121, 121);
+  }
+
+.line {
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+
+

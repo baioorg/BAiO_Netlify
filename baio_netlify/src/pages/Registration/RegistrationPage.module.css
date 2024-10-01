@@ -1,0 +1,50 @@
+.regbracket {  
+    margin: 9em auto;
+    max-width: 600px;
+    max-height: 500px;
+}
+
+.regpage {
+    background-color: #fff;
+    max-width:500em;
+    text-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.regcontent {
+    margin: 0 auto;
+    background-color: #fff;
+    color: black;
+    padding: 1.5em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(0, 0, 0);
+    width: 350px; /*change width of sign in panel*/
+}
+
+.regcontent h1 {
+    font-size: 15px;
+    font-weight: 100;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+}
+
+.btn {
+    color: rgb(255, 255, 255);
+    background-color: black;
+    padding: 0.25em 0.5em;
+    border: 1px solid black;
+    margin-top: 10px;
+    border-radius: 5px;
+
+}
+
+.btn:hover,
+.btn:focus-visible {
+    background: rgb(121, 121, 121);
+  }
