@@ -1,0 +1,70 @@
+.bracket {
+    margin: auto;
+    max-width: 800px;
+}
+
+.valpage {
+    background-color: #fff;
+    max-width: 800px;
+    text-align: start;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.valcontent {
+    margin: 9em auto;
+    background-color: #fff;
+    color: black;
+    padding: 1.5em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(0, 0, 0);
+    width: 700px; /*change width of sign in panel*/
+}
+
+.valcontent h1 {
+    font-size: 16px;
+    font-weight: 100;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px;
+}
+
+.valcontent h2 {
+    font-size: 16px;
+    font-weight: 100;
+    text-align: center;
+    margin: 10px;
+}
+
+.valbtn {
+    color: rgb(255, 255, 255);
+    background-color: black;
+    padding: 0.25em 0.5em;
+    border: 1px solid black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    width: 250px;
+
+}
+
+.valbtncontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+}
+
+.valbtn:hover,
+.valbtn:focus-visible {
+    background: rgb(121, 121, 121);
+  }
+
+.letterImg {
+    margin: auto;
+    padding: 15px;
+}
