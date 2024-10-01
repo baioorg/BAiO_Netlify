@@ -26,10 +26,20 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Dependencies
 
+Run these commands if you get any errors when running the page. 
+
 ```
+npm install
 npm install react-icons
 npm install react-select-country-list --save
 npm install react-select
+```
+
+If the error persists, 
+
+```
+rm node_modules
+npm install
 ```
 
 ## Learn More
