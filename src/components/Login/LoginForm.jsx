@@ -15,7 +15,7 @@ export default function LogInForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/auth/login/", {
+      const response = await fetch("/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export default function LogInForm() {
       }
       //unknown error but do not reveal error.
     } catch (error) {
-      alert("Login unsuccessful, try again");
+      alert("ARGGHHHH");
     }
   }
 

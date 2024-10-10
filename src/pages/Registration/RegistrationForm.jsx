@@ -29,7 +29,39 @@ export default function RegistrationForm() {
   };
 
   //send user to email validation page
-  async function handleSubmit() {
+  async function handleSubmit(event){
+      event.preventDefault(); 
+      try {
+        const response = await fetch("http://localhost:8000/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ 
+            firstName,
+            lastName,
+            password,
+            email,
+            country, 
+            affiliation,
+            position,
+            fieldOfStudy
+           }),
+        });
+  
+        if (response.ok) {
+          alert("Registration successful");
+          router.push("/EmailValidation");
+        } else {
+          alert("Registration unsuccessful, try again");
+          return
+        }
+        //unknown error but do not reveal error.
+      } catch (error) {
+        alert("ARGGHHHH");
+        return
+      }
+    
     try {
       router.push("/EmailValidation");
     } catch (error) {
@@ -72,7 +104,7 @@ export default function RegistrationForm() {
   }
 
   
-  function allFieldsFilled() {
+  function allFieldsFilled(event) {
     //dont refresh
     event.preventDefault(); 
 
@@ -96,12 +128,12 @@ export default function RegistrationForm() {
     }
 
     //send it
-    handleSubmit();
+    handleSubmit(event);
   }
-
+  
   return (
    
-      <form onSubmit={allFieldsFilled} classname={styles.newuserform}>
+      <form onSubmit={allFieldsFilled} className={styles.newuserform}>
         <div className={styles.regformrow}>
           <label htmlFor="firstName">First Name</label>
           <input
