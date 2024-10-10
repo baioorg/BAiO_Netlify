@@ -8,15 +8,15 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 
 export default function RegistrationForm() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
   const [affiliation, setAffiliation] = useState("");
   const [position, setPosition] = useState("");
-  const [fieldOfStudy, setFieldOfStudy] = useState("");
+  const [field_of_study, setFieldOfStudy] = useState("");
 
   const router = useRouter();
 
@@ -25,7 +25,7 @@ export default function RegistrationForm() {
   const countryOptions = useMemo(() => countryList().getData(), []);
 
   const changeHandler = (country) => {
-    setCountry(country);
+    setCountry(country.label);
   };
 
   //send user to email validation page
@@ -38,16 +38,20 @@ export default function RegistrationForm() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ 
-            firstName,
-            lastName,
+            first_name,
+            last_name,
             password,
             email,
             country, 
             affiliation,
             position,
-            fieldOfStudy
+            field_of_study
            }),
+           credentials: "include",
         });
+
+        const content = await response.json()
+        console.log(content);
   
         if (response.ok) {
           alert("Registration successful");
@@ -86,16 +90,17 @@ export default function RegistrationForm() {
   }
 
   function checkAllFieldsAreNotEmpty() {
+    console.log("country", country)
     if (
-      firstName.length > 1 &&
-      lastName.length > 1 &&
+      first_name.length > 1 &&
+      last_name.length > 1 &&
       password.length> 1 &&
       checkPassword.length>1&&
       email.length > 1 &&
       country !== "" &&
       affiliation.length > 1 &&
       position.length > 1 &&
-      fieldOfStudy.length > 1
+      field_of_study.length > 1
     ) {
       return true;
     } else {
@@ -137,7 +142,7 @@ export default function RegistrationForm() {
         <div className={styles.regformrow}>
           <label htmlFor="firstName">First Name</label>
           <input
-            value={firstName}
+            value={first_name}
             onChange={(firstName) => setFirstName(firstName.target.value)}
             type="text"
             id="firstName"
@@ -146,7 +151,7 @@ export default function RegistrationForm() {
         <div className={styles.regformrow}>
           <label htmlFor="lastName">Last Name</label>
           <input
-            value={lastName}
+            value={last_name}
             onChange={(lastName) => setLastName(lastName.target.value)}
             type="text"
             id="lastName"
@@ -208,7 +213,7 @@ export default function RegistrationForm() {
         <div className={styles.regformrow}>
           <label htmlFor="fieldOfStudy">Field of study</label>
           <input
-            value={fieldOfStudy}
+            value={field_of_study}
             onChange={(fieldOfStudy) =>
               setFieldOfStudy(fieldOfStudy.target.value)
             }
