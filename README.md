@@ -1,3 +1,5 @@
+Website URL: https://baio.netlify.app/
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -33,6 +35,7 @@ npm install
 npm install react-icons
 npm install react-select-country-list --save
 npm install react-select
+npm install axios
 ```
 
 If the error persists, 

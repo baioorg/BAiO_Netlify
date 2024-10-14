@@ -4,44 +4,49 @@
 import { useState } from "react";
 import styles from "./LoginPage.module.css";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
-
+import { useRouter } from "next/navigation";
 
 export default function LogInForm() {
+  const [username, setNewUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [username, setNewUsername] = useState("")
-    const [password, setPassword] = useState("")
+  const router = useRouter();
 
-    const router = useRouter();
+  async function handleSubmit(event) {
+    event.preventDefault();
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-         
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ username, password }),
-                });
-
-              
-                router.push("/Main");
-        }
-    
-
-    function fieldsFilled(event) {
-        if (username.length >= 5 && password.length >= 5) {
-            return handleSubmit(event);    
-        } else {
-            alert('User login failed');
-            return false;
-        }
+      if (response.ok) {
+        alert("Login successful");
+        router.push("/Main");
+      } else {
+        alert("Login unsuccessful, try again");
+      }
+      //unknown error but do not reveal error.
+    } catch (error) {
+      alert("ARGGHHHH");
     }
+  }
 
-    return (
-        <div className={styles.logincontainer}> 
-      <form onSubmit={fieldsFilled} className={styles.newitemform}> 
+  function fieldsFilled(event) {
+    if (username.length >= 5 && password.length >= 5) {
+      return handleSubmit(event);
+    } else {
+      alert("User login failed");
+      return false;
+    }
+  }
+
+  return (
+    <div className={styles.logincontainer}>
+      <form onSubmit={fieldsFilled} className={styles.newitemform}>
         <div className={styles.formrow}>
           <label htmlFor="user">User</label>
           <input
@@ -51,7 +56,7 @@ export default function LogInForm() {
             id="user"
           />
         </div>
-        <div className={styles.formrow}> 
+        <div className={styles.formrow}>
           <label htmlFor="password">Password</label>
           <input
             value={password}
@@ -60,11 +65,13 @@ export default function LogInForm() {
             id="password"
           />
         </div>
-        <button className={styles.btn} type="submit">Sign In</button> 
+        <button className={styles.btn} type="submit">
+          Sign In
+        </button>
         <Link className={styles.textLink} href="/">
           Forgot password?
         </Link>
       </form>
     </div>
-    );
-} 
+  );
+}
