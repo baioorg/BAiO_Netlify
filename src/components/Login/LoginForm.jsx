@@ -1,6 +1,3 @@
-//https://github.com/KWaloen/My-Portolio-Website/blob/main/src/app/ReactProjects/LoginPage/LogInForm.tsx
-//enter any username and password of more than 5 figures to log in
-
 import { useState } from "react";
 import styles from "./LoginPage.module.css";
 import Link from "next/link";
@@ -15,7 +12,7 @@ export default function LogInForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("/", {
+      const response = await fetch("http://127.0.0.1:8000/user/auth/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,9 +26,8 @@ export default function LogInForm() {
       } else {
         alert("Login unsuccessful, try again");
       }
-      //unknown error but do not reveal error.
     } catch (error) {
-      alert("ARGGHHHH");
+      alert("An error occurred during login");
     }
   }
 
@@ -39,7 +35,7 @@ export default function LogInForm() {
     if (username.length >= 5 && password.length >= 5) {
       return handleSubmit(event);
     } else {
-      alert("User login failed");
+      alert("User login failed. Both username and password must be at least 5 characters long.");
       return false;
     }
   }
