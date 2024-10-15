@@ -21,6 +21,12 @@ export default function LogInForm() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        
+        // Storing access and refresh tokens
+        localStorage.setItem("access_token", data.access);
+        localStorage.setItem("refresh_token", data.refresh);
+
         alert("Login successful");
         router.push("/Main");
       } else {
