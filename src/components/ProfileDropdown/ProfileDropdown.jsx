@@ -6,11 +6,17 @@ import { FaUserCircle } from 'react-icons/fa';
 import { CiSettings } from 'react-icons/ci';
 import { FiMoon } from 'react-icons/fi';
 import  { MdLogout } from "react-icons/md";
-
-
-
+import { useRouter } from "next/navigation"
 
 export default function ProfileDropDown({type = 'dropdown', openSettings, openProfileSettings}) {
+
+    const router = useRouter();
+
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        router.push("/");
+      }
 
     return (
         <div className={styles.dropdown}>
@@ -21,7 +27,7 @@ export default function ProfileDropDown({type = 'dropdown', openSettings, openPr
             </div>
             <div className={styles.dropdownButton}>
                 <hr className={styles.dropdownDivider}/>
-                <button className={styles.dropdownButton}><MdLogout size="1.3em"/>Sign Out</button>
+                <button className={styles.dropdownButton} onClick={handleLogout}><MdLogout size="1.3em"/>Sign Out</button>
             </div>
         </div>
     )

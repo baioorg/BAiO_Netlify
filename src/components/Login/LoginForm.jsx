@@ -21,8 +21,17 @@ export default function LogInForm() {
       });
 
       if (response.ok) {
-        alert("Login successful");
-        router.push("/Main");
+        const data = await response.json();
+        console.log(data);  // Log the response data to inspect the structure
+      
+        if (data.access && data.refresh) {  // Check if tokens exist in the response
+          alert("Login successful");
+          localStorage.setItem('accessToken', data.access);
+          localStorage.setItem('refreshToken', data.refresh);
+          router.push("/Main");
+        } else {
+          alert("Tokens not found in response");
+        }
       } else {
         alert("Login unsuccessful, try again");
       }
