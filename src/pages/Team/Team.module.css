@@ -85,6 +85,7 @@
     display: flex;
     align-items: flex-start;
     margin-bottom: 2em;
+    flex-direction: row;
   }
   
   .profilepicture {
@@ -138,25 +139,138 @@
   }
   
   @media screen and (max-width: 480px) {
+
+    .teampage {
+      background-color: #fff;
+      text-align: center;
+      
+    }
+    
     .teamcontent {
-      margin: 1em auto;
-      max-width: 20em;}
-     
-    .teamcontent h2 {
-      font-size: 2em;
-      text-align: center;
-    }
-
-    .teamcontent h3 {
-      font-size: 1.5em;
-      text-align: center;
-    }
-  
-
-    .section {
+      max-width: 20em;
+      margin: 2em auto;
+      color: black;
+      padding: 1.5em;
+      border-radius: 1em;
+      gap: 1rem;
+      border: 1px solid rgb(0, 0, 0);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
       flex-direction: column;
-      gap: 2em;
       align-items: center;
-}
+    
+    }
+    
+    .teamcontent h2 {
+        font-size: 2em;
+    }
+    
+    .section {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        gap: 2em;
+    }
+    
+    .teamcontent h3{
+      font-size: 1.75em;
+      line-height: 2em;
+      font-weight: 600;
+    }
+    
+    .profilecard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+        padding: 1em;
+        background-color: white;
+        border-radius: 1em;
+        box-shadow: 0 0 2.5px black;
+        width: 15em; /* Set a fixed width */
+        height: 18em; /* Set a fixed height */
+        box-sizing: border-box;
+    }
+    
+    
+    .profilecard h4 {
+        font-size: 1.25em;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    .profileimage {
+        width: 10em;
+        height: 10em;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .profilescreendetails {
+      padding: 0em;
+      border-radius: 1em;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .closebutton {
+      background-color: none;
+      border: 1px solid black;
+      color: rgb(0, 0, 0);
+      padding: 0.5em 1em;
+      cursor: pointer;
+      border-radius: 0.25em;
+      margin-bottom: 1em;
+  
+    }
+    
+    .profiledetailscontainer {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2em;
+      align-items: center;
+    }
+    
+    .profilepicture {
+      display: flex;
+      align-self: center;
+    }
+    
+    .profileimagelarge {
+      width: 150px;
+      height: 150px;
+      border: 1px solid black;
+      border-radius: 20%;
+      object-fit: cover;
+      margin-right: 0em;
+    }
+    
+    .profileinfo {
+      flex: 2;
+      text-align: center;
+    }
+    
+    .profileinfo h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    
+    .profileinfo p {
+      margin: 0.5em 0;
+    }
+    
+    .profileabout {
+      margin-top: 2em;
+    }
+    
+    .profileabout h3 {
+      font-size: 1.5em;
+      margin-bottom: 1em;
+    }
+    
+    .profileabout p {
+      margin: 0.5em 0;
+      line-height: 1.5em;
+    }
   }
   
