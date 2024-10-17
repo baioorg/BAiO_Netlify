@@ -22,7 +22,7 @@
     display: flex;
     flex-direction: column;
     border: 1px solid rgb(0, 0, 0);
-    width: 700px; /*change width of sign in panel*/
+    width: 700px; /*change width of validation page panel*/
 }
 
 .valcontent h1 {
@@ -68,3 +68,49 @@
     margin: auto;
     padding: 15px;
 }
+  
+  @media screen and (max-width: 480px) {
+    .valcontent {
+        margin: 1em auto;
+        background-color: #fff;
+        color: black;
+        padding: 1.5em;
+        border-radius: 1em;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid rgb(0, 0, 0);
+        width: 300px; /*change width of validation page panel*/
+    }
+
+
+    .valcontent h1 {
+        font-size: 14px;
+        
+    }
+    
+    .valcontent h2 {
+        font-size: 14px;
+    }
+    
+    .valbtn {
+        width: 100px;
+        font-size: 12px;
+    }
+    
+    .valbtncontainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 50px;
+    }
+    
+    .valbtn:hover,
+    .valbtn:focus-visible {
+        background: rgb(121, 121, 121);
+      }
+    
+    .letterImg {
+        margin: auto;
+        padding: 15px;
+    }
+  }
