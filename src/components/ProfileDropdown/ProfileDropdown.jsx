@@ -15,6 +15,7 @@ export default function ProfileDropDown({type = 'dropdown', openSettings, openPr
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        alert("Logout successful");
         router.push("/");
       }
 
