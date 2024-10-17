@@ -37,3 +37,78 @@
     margin-right: 3%;
     background-color: #184B36;
 }
+
+@media screen and (max-width: 800px) {
+    .dropdown {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        right: 0.2em;
+        top: 3.5em;
+        background-color: #F5F5F5;
+        border-radius: 2em;
+        border: 0.15em solid #184B36;
+        height: 25em;
+        width: 21em;
+        z-index: 50;
+    }
+
+    .dropdownButton {
+    
+        padding: 0.5em 0.5em;
+        border-radius: 25px;
+        /*padding: 0.5em 1em;*/
+        text-align: left;
+        font-family: 'Roboto', sans-serif;
+        font-size: 1.4em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.7em;
+        
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .dropdown {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    right: 0.2em;
+    top: 3.5em;
+    background-color: #F5F5F5;
+    border-radius: 2em;
+    border: 0.15em solid #184B36;
+    height: 15em;
+    width: 13em;
+    z-index: 50;
+}
+
+.dropdownButton {
+    
+    padding: 0.5em 0.5em;
+    border-radius: 25px;
+    /*padding: 0.5em 1em;*/
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.7em;
+    
+}
+
+.dropdownButton:hover {
+    background-color: #E0E0E0; /* Changes color on hover */
+}
+
+.dropdownDivider {
+    height: 0.15em;
+    margin-left: 3%;
+    margin-right: 3%;
+    background-color: #184B36;
+}
+  }
