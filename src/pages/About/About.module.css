@@ -1,12 +1,12 @@
 .aboutpage {
     background-color: #fff;
     text-align: start;
-    margin: 9em 0;
+    
 }
 
 .aboutcontent {
-    max-width: 80em;
-    margin: 0 auto;
+    max-width: 50em;
+    margin: 9em auto;
     color: black;
     padding: 1.5em;
     border-radius: 1em;
@@ -27,3 +27,21 @@
     line-height: 1.35em;
     justify-content: center;
 }
+
+@media screen and (max-width: 800px) {
+    .aboutcontent {  
+        max-width: 50em;
+        margin: 5em auto;
+        font-size: 0.8em;
+       
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .aboutcontent {  
+        max-width: 25em;
+        margin: 1em auto;
+        font-size: 0.8em;
+       
+    }
+  }

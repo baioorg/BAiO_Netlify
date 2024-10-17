@@ -61,7 +61,7 @@ export default function Header({ type = "header" }) {
             target="_blank"
             className={styles.navbarLink}
           >
-            <FaGithub color="#ffffff" size="1.5em" />
+            <FaGithub className = {styles.githubIcon} />
             Github
           </Link>
           <Link href="/About" className={styles.navbarLink}>
@@ -75,7 +75,7 @@ export default function Header({ type = "header" }) {
             className={styles.profileButton}
             aria-label="Profile Menu"
           >
-            <FaUserCircle color="#ffffff" size="3em" />
+            <FaUserCircle color="#ffffff" size="2em" />
           </button>
         </div>
       </header>
