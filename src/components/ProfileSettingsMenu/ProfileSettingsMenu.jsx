@@ -18,7 +18,7 @@ export default function ProfileSettingsMenu({type = 'profileSettings', closeProf
 
             <div className={styles.profileMenu}>
                 <div className={styles.buttonSection}>
-                    <FaUserCircle size={"8em"}/>
+                    <FaUserCircle className={styles.profileImage}/>
                     <button className={styles.editButton}>Upload Image</button>
                     <button className={styles.editButton}>Edit Profile</button>
                     <button className={styles.editButton}>Change Password</button>

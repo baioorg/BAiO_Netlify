@@ -122,36 +122,137 @@
     color: #555;
 }
 
+.profileImage {
+    font-size: 5em;
+}
+
+
 @media screen and (max-width: 800px) {
-    .dropdown {
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        right: 0.2em;
-        top: 7.3em;
-        background-color: #F5F5F5;
-        border-radius: 2em;
-        border: 0.15em solid #184B36;
-        height: 25em;
-        width: 21em;
-        z-index: 50;
-    }
-  }
+}
   
   @media screen and (max-width: 480px) {
-    .dropdown {
-        position: absolute;
+    .profileSettings {
+        position:absolute; 
+        top: 35em; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        background-color: #F5F5F5;
+        border: 3px solid #184B36; 
+        border-radius: 0.5em; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        padding: 1em; 
+        width: 90%; 
+        max-width: 800px;
+        z-index: 1001; 
+    }
+    
+    .profileMenu {
+        display:flex;
+        flex-direction: column;
+        gap: 2em;
+        padding: 2em 0;
+    }
+    
+    .menuHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0em; 
+    }
+    
+    .menuHeader h1 {
+        font-size: 2em;
+        color: #000000;
+        margin: 0;
+    }
+    
+    .menuHeader button {
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: #000000; 
+        transition: color 0.3s ease, background-color 0.3s ease;
+        border-radius: 50%; 
+        padding: 0.2em;
+    }
+    
+    .menuHeader button:hover {
+        background-color: #E0E0E0; 
+    }
+    
+    .profilemenu hr {
+        border: none;
+        border-top: 2px solid #184B36; 
+        margin: 1em 0;
+    }
+    
+    .content {
+        display: flex;
+        flex-direction: row;
+        gap: 2em; 
+    }
+    
+    .buttonSection {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        right: 0.2em;
-        top: 7.3em;
-        background-color: #F5F5F5;
-        border-radius: 2em;
-        border: 0.15em solid #184B36;
-        height: 25em;
-        width: 15em;
-        z-index: 50;
+        align-items: center;
+        gap: 0.5em; 
+        flex: 1; 
     }
-  }
+    
+    .editButton {
+        width: 100%;
+        padding: 0.5em 1em;
+        background-color: #E0E0E0;
+        border: none;
+        border-radius: 25px;
+        font-size: 1em;
+    }
+    
+    .editButton:hover {
+        background-color: #dbdbdb; 
+    }
+    
+    #deleteButton {
+        width: 100%;
+        padding: 0.5em 1em;    
+        background-color: #E0E0E0; 
+        color: red; 
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+    
+    #deleteButton:hover {
+        background-color: red; 
+        color: #fff; 
+    }
+    
+    .informationSection {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em; 
+        flex: 2;
+    }
+    
+    .infoitem {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em; 
+        text-align: center;
+    }
+    
+    .infoitem strong {
+        width: 150px; 
+        color: #333; 
+    }
+    
+    .infoitem span {
+        color: #555;
+    }
+
+    .profileImage {
+        font-size: 5em;
+    }
+}
