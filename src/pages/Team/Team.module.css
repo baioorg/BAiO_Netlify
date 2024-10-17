@@ -70,6 +70,11 @@
     max-width: 900px;
     margin: 0 auto;
   }
+
+  .backbutton {
+    align-self: left;
+    display:flex;
+  }
   
   .closebutton {
     background-color: none;
@@ -221,7 +226,6 @@
       cursor: pointer;
       border-radius: 0.25em;
       margin-bottom: 1em;
-  
     }
     
     .profiledetailscontainer {
@@ -272,5 +276,7 @@
       margin: 0.5em 0;
       line-height: 1.5em;
     }
+
+  
   }
   
