@@ -12,30 +12,35 @@ export default function LogInForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("http://127.0.0.1:8000/user/auth/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
+        const response = await fetch("http://127.0.0.1:8000/user/auth/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        
-        // Storing access and refresh tokens
-        localStorage.setItem("access_token", data.access);
-        localStorage.setItem("refresh_token", data.refresh);
+        if (response.ok) {
+            const data = await response.json();
 
-        alert("Login successful");
-        router.push("/Main");
-      } else {
-        alert("Login unsuccessful, try again");
-      }
+            // Log the data to check if tokens are received
+            console.log("Login response:", data);
+
+            // Storing access and refresh tokens
+            localStorage.setItem("access_token", data.access); 
+            localStorage.setItem("refresh_token", data.refresh);
+
+            alert(`Login successful: ${data.access}`);
+            router.push("/Main");
+        } else {
+            alert(`Login failed: ${data.detail}`);
+        }
     } catch (error) {
-      alert("An error occurred during login");
+        console.error("Login error:", error);
+        alert("An error occurred during login");
     }
-  }
+}
+
 
   function fieldsFilled(event) {
     if (username.length >= 5 && password.length >= 5) {
