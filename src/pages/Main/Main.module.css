@@ -10,7 +10,7 @@
 }
 
 .leftmenu {
-    width: 20%;
+    width: 20em;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -59,11 +59,12 @@
 
 .previouschats ul li {
     display: flex;
+    justify-content: space-between;
     width: 100%;
     padding: 0.5em;
     background-color: rgb(255, 255, 255);
     border: 0.5px solid rgb(76, 76, 76);
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     cursor: pointer;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -150,4 +151,53 @@
     background-color: #184B35;
     margin-left: auto; 
     color: rgb(255, 255, 255);
+}
+
+.chatheader {
+    display: none;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 1em;
+}
+
+@media screen and (max-width: 768px) {
+    .maincontent {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .chatheader {
+        display: flex; /* Show the chat header on mobile */
+    }
+
+    .leftmenu {
+        width: 100%;
+        height: 100%;
+        display: none; /* Hide the left menu on mobile */
+    }
+
+    .leftmenu.open {
+        display: flex;
+      }
+
+      .chatwindow.hidden {
+        display: none;
+      }
+
+    .chatwindow {
+        width: 100%; /* Take up the full width of the screen */
+        height: 100%;
+    }
+
+    .chatmessages {
+        width: 100%; /* Ensure messages take up full width */
+    }
+
+    .chatinput {
+        width: 100%; /* Ensure input field takes up full width */
+    }
 }
