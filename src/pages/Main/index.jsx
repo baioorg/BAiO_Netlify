@@ -55,6 +55,22 @@ export default function Main() {
     }
   }, [accessToken]); // Memoize based on accessToken
 
+  const fetchConversation = async (conversationId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/chat/getConversation/?conversation_id=${conversationId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const data = await response.json();
+      setMessages(data.messages);
+      setSelectedConversationId(conversationId);
+    } catch (error) {
+      console.error("Error fetching conversation", error);
+    }
+  };
+
   
   const handleNewChat = async () => {
     try {
@@ -70,6 +86,7 @@ export default function Main() {
       const data = await response.json();
       setMessages([]);
       setPreviousChats([...previousChats, data]); // Add the new chat to previousChats
+      alert(previousChats)
     } catch (error) {
       console.error("Error creating conversation", error);
     }
@@ -85,7 +102,7 @@ export default function Main() {
   const handleMessageSend = async () => {
     if (!newMessage.trim()) return;
 
-    alert(selectedConversationId)
+    alert("conversation id " + selectedConversationId)
 
     try {
       const response = await fetch("http://127.0.0.1:8000/chat/sendMessage/", {
