@@ -29,6 +29,7 @@ export default function Main() {
 
   const fetchConversations = useCallback(async () => {
     alert("fetching conversations");
+    
     try {
       const response = await fetch("http://127.0.0.1:8000/chat/getConversations/", {
         method: "GET",
@@ -40,11 +41,10 @@ export default function Main() {
       const data = await response.json();
 
       if (Array.isArray(data)) {
-        alert("setPreviousChats");
+        alert("setPreviousChats " + previousChats.length);
         setPreviousChats(data); // Set the data correctly if it's an array
-          if (previousChats.length === 0) {
-            handleNewChat(data);
-          }
+        
+        
       } else {
         console.error("Unexpected data format, expected an array.");
         setPreviousChats([]); // Set to an empty array if the response is not an array
