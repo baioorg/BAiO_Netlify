@@ -42,6 +42,9 @@ export default function Main() {
       if (Array.isArray(data)) {
         alert("setPreviousChats");
         setPreviousChats(data); // Set the data correctly if it's an array
+          if (previousChats.length === 0) {
+            handleNewChat(data);
+          }
       } else {
         console.error("Unexpected data format, expected an array.");
         setPreviousChats([]); // Set to an empty array if the response is not an array
@@ -55,6 +58,7 @@ export default function Main() {
   
   const handleNewChat = async () => {
     try {
+      alert("creating new conversation")
       const response = await fetch("http://127.0.0.1:8000/chat/createConversation/", {
         method: "POST",
         headers: {
@@ -77,6 +81,7 @@ export default function Main() {
       fetchConversations();
     }
   }, [accessToken, fetchConversations])
+
   const handleMessageSend = async () => {
     if (!newMessage.trim()) return;
 
