@@ -56,6 +56,7 @@ export default function Main() {
   }, [accessToken]); // Memoize based on accessToken
 
   const fetchConversation = async (conversationId) => {
+    alert("fetching conversation")
     try {
       const response = await fetch(`http://127.0.0.1:8000/chat/getConversation/?conversation_id=${conversationId}`, {
         method: "GET",
