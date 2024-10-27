@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styles from "./Main.module.css";
 import Header from "../../components/Header/Header";
 import { IoIosSend, IoMdMenu } from "react-icons/io";
@@ -27,14 +27,9 @@ export default function Main() {
     }
   }, []);
 
-  // Fetch all conversations once accessToken is set
-  useEffect(() => {
-    if (accessToken) {
-      fetchConversations();
-    }
-  }, [accessToken]); 
-
-  const fetchConversations = async () => {
+  const fetchConversations = useCallback(async () => {
+    alert("fetching conversations");
+    
     try {
       const response = await fetch("http://127.0.0.1:8000/chat/getConversations/", {
         method: "GET",
@@ -42,22 +37,26 @@ export default function Main() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+
       const data = await response.json();
 
       if (Array.isArray(data)) {
-        setPreviousChats(data);
+        alert("setPreviousChats " + previousChats.length);
+        setPreviousChats(data); // Set the data correctly if it's an array
+        
+        
       } else {
         console.error("Unexpected data format, expected an array.");
-        setPreviousChats([]); // Set to an empty array if data is not an array
+        setPreviousChats([]); // Set to an empty array if the response is not an array
       }
     } catch (error) {
       console.error("Error fetching conversations", error);
       setPreviousChats([]); // Set to an empty array on error
     }
-  };
-  
+  }, [accessToken]); // Memoize based on accessToken
 
   const fetchConversation = async (conversationId) => {
+    alert("fetching conversation")
     try {
       const response = await fetch(`http://127.0.0.1:8000/chat/getConversation/?conversation_id=${conversationId}`, {
         method: "GET",
@@ -73,8 +72,10 @@ export default function Main() {
     }
   };
 
+  
   const handleNewChat = async () => {
     try {
+      alert("creating new conversation")
       const response = await fetch("http://127.0.0.1:8000/chat/createConversation/", {
         method: "POST",
         headers: {
@@ -86,13 +87,23 @@ export default function Main() {
       const data = await response.json();
       setMessages([]);
       setPreviousChats([...previousChats, data]); // Add the new chat to previousChats
+      alert(previousChats)
     } catch (error) {
       console.error("Error creating conversation", error);
     }
   };
 
+// Fetch all conversations once accessToken is set
+  useEffect(() => {
+    if (accessToken) {
+      fetchConversations();
+    }
+  }, [accessToken, fetchConversations])
+
   const handleMessageSend = async () => {
     if (!newMessage.trim()) return;
+
+    alert("conversation id " + selectedConversationId)
 
     try {
       const response = await fetch("http://127.0.0.1:8000/chat/sendMessage/", {
