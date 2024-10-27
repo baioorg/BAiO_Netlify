@@ -31,6 +31,9 @@ export default function LogInForm() {
             localStorage.setItem("access_token", data.access); 
             localStorage.setItem("refresh_token", data.refresh);
 
+            // Fetch and store API keys
+            await fetchApiKeys(data.access);
+
             alert(`Login successful: ${data.access}`);
             router.push("/Main");
         } else {
@@ -41,6 +44,32 @@ export default function LogInForm() {
         alert("An error occurred during login");
     }
 }
+
+  async function fetchApiKeys(accessToken) {
+    try {
+      const apiKeyResponse = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (apiKeyResponse.ok) {
+        const apiKeys = await apiKeyResponse.json();
+
+        // Log the API keys to check if they are received
+        console.log("API Keys:", apiKeys);
+
+        // Store the API keys in localStorage
+        localStorage.setItem("api_keys", JSON.stringify(apiKeys));
+      } else {
+        console.error("Failed to retrieve API keys");
+      }
+    } catch (error) {
+      console.error("API key fetch error:", error);
+    }
+  }
 
 
   function fieldsFilled(event) {
