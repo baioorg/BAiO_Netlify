@@ -180,7 +180,6 @@ export default function Main() {
       return null;
     }
   };
-
   const handleMessageSend = async (conversationId = selectedConversationId) => {
     if (!newMessage.trim()) return;
     if (!apiKey) {
@@ -212,15 +211,29 @@ export default function Main() {
     if (response && response.ok) {
       const reader = response.body.getReader();
       let decoder = new TextDecoder();
-      let result = await reader.read();
-      let streamedMessage = decoder.decode(result.value);
+      let streamedMessage = "";
 
+      // Update messages state to include the new user message
       setMessages((prevMessages) => [
         ...prevMessages,
         { content: newMessage, role: "user" },
-        { content: streamedMessage, role: "bot" },
+        { content: "", role: "bot" },
       ]);
       setNewMessage("");
+
+      // Read the response stream
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        streamedMessage += decoder.decode(value, { stream: true });
+
+        // Update the latest bot message with streamed content
+        setMessages((prevMessages) => {
+          const updatedMessages = [...prevMessages];
+          updatedMessages[updatedMessages.length - 1].content = streamedMessage;
+          return updatedMessages;
+        });
+      }
     } else {
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -232,6 +245,7 @@ export default function Main() {
       setNewMessage("");
     }
   };
+
 
   const openSettings = () => setIsSettingsOpen(true);
   const closeSettings = () => setIsSettingsOpen(false);
