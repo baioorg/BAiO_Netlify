@@ -48,7 +48,7 @@ export default function Main() {
     if (!accessToken) return;
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+      const response = await fetch("http://158.39.74.70/chat/getApiKeys/", {
         method: "GET",
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -77,7 +77,7 @@ export default function Main() {
       return null;
     }
     try {
-      const response = await fetch("http://127.0.0.1:8000/user/refresh/", {
+      const response = await fetch("http://158.39.74.70/user/refresh/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refresh: refreshToken }),
@@ -120,7 +120,7 @@ export default function Main() {
 
   const fetchConversations = useCallback(async () => {
     const response = await fetchWithAuth(
-      "http://127.0.0.1:8000/chat/getConversations/",
+      "http://158.39.74.70/chat/getConversations/",
       {
         method: "GET",
       }
@@ -148,7 +148,7 @@ export default function Main() {
 
   const fetchConversation = async (conversationId) => {
     const response = await fetchWithAuth(
-      `http://127.0.0.1:8000/chat/getConversation/?conversation_id=${conversationId}`,
+      `http://158.39.74.70/chat/getConversation/?conversation_id=${conversationId}`,
       { method: "GET" }
     );
     if (response && response.ok) {
@@ -162,7 +162,7 @@ export default function Main() {
 
   const handleNewChat = async () => {
     const response = await fetchWithAuth(
-      "http://127.0.0.1:8000/chat/createConversation/",
+      "http://158.39.74.70/chat/createConversation/",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -195,7 +195,7 @@ export default function Main() {
     }
 
     const response = await fetchWithAuth(
-      "http://127.0.0.1:8000/chat/sendMessage/",
+      "http://158.39.74.70/chat/sendMessage/",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

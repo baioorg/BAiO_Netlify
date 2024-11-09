@@ -26,7 +26,7 @@ export default function ProfileSettingsMenu({type = 'profileSettings', closeProf
             }
     
             try {
-                const response = await fetch("http://127.0.0.1:8000/user/info/", {
+                const response = await fetch("http://158.39.74.70/user/info/", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`, 

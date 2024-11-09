@@ -26,7 +26,7 @@ export default function SettingsMenu({ type = "settings", closeSettings }) {
     if (accessToken) {
       const fetchProviders = async () => {
         try {
-          const response = await fetch("http://127.0.0.1:8000/chat/getLLMProviders/", {
+          const response = await fetch("http://158.39.74.70/chat/getLLMProviders/", {
             method: "GET",
             headers: { Authorization: `Bearer ${accessToken}` },
           });
@@ -50,7 +50,7 @@ export default function SettingsMenu({ type = "settings", closeSettings }) {
 
   const fetchAndStoreApiKeys = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+      const response = await fetch("http://158.39.74.70/chat/getApiKeys/", {
         method: "GET",
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -69,7 +69,7 @@ export default function SettingsMenu({ type = "settings", closeSettings }) {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat/addAPIKey/", {
+      const response = await fetch("http://158.39.74.70/chat/addAPIKey/", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
