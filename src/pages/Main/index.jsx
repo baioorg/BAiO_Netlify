@@ -263,6 +263,39 @@ export default function Main() {
     }
   };
 
+  const handleTitleEdit = (chatId, currentTitle) => {
+    setIsEditing(chatId);
+    setEditedTitle(currentTitle);
+  };
+
+  const handleSaveTitle = async (chatId) => {
+    if (!editedTitle.trim()) return;
+
+    const response = await fetchWithAuth(
+      "http://127.0.0.1:8000/chat/renameConversation/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          conversation_id: chatId,
+          title: editedTitle,
+        }),
+      }
+    );
+
+    if (response && response.ok) {
+      // Update the title in the local state
+      setPreviousChats((prevChats) =>
+        prevChats.map((chat) =>
+          chat.id === chatId ? { ...chat, title: editedTitle } : chat
+        )
+      );
+      setIsEditing(null); // Exit edit mode
+    } else {
+      console.error("Failed to update conversation title");
+    }
+  };
+
   return (
     <div className={styles.mainpage}>
       <div className={styles.maincontent}>
