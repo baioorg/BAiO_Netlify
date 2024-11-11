@@ -12,33 +12,65 @@ export default function LogInForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("http://127.0.0.1:8000/user/auth/", {
-        method: "POST",
+        const response = await fetch("http://127.0.0.1:8000/user/auth/", {
+            method: "POST",
+            headers: 
+            {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+
+            // Log the data to check if tokens are received
+            console.log("Login response:", data);
+
+            // Storing access and refresh tokens
+            localStorage.setItem("access_token", data.access); 
+            localStorage.setItem("refresh_token", data.refresh);
+
+            // Fetch and store API keys
+            await fetchApiKeys(data.access);
+
+            alert(`Login successful: ${data.access}`);
+            router.push("/Main");
+        } else {
+            alert(`Login failed: ${data.detail}`);
+        }
+    } catch (error) {
+        console.error("Login error:", error);
+        alert("An error occurred during login");
+    }
+}
+
+  async function fetchApiKeys(accessToken) {
+    try {
+      const apiKeyResponse = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+        method: "GET",
         headers: {
+          Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);  // Log the response data to inspect the structure
-      
-        if (data.access && data.refresh) {  // Check if tokens exist in the response
-          alert("Login successful");
-          localStorage.setItem('accessToken', data.access);
-          localStorage.setItem('refreshToken', data.refresh);
-          router.push("/Main");
-        } else {
-          alert("Tokens not found in response");
-        }
+      if (apiKeyResponse.ok) {
+        const apiKeys = await apiKeyResponse.json();
+
+        // Log the API keys to check if they are received
+        console.log("API Keys:", apiKeys);
+
+        // Store the API keys in localStorage
+        localStorage.setItem("api_keys", JSON.stringify(apiKeys));
       } else {
-        alert("Login unsuccessful, try again");
+        console.error("Failed to retrieve API keys");
       }
     } catch (error) {
-      alert("An error occurred during login");
+      console.error("API key fetch error:", error);
     }
   }
+
 
   function fieldsFilled(event) {
     if (username.length >= 5 && password.length >= 5) {
