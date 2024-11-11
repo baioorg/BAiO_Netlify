@@ -33,7 +33,7 @@ export default function Main() {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("access_token");
 
-        console.log(token);
+        console
         
         if (!token) {
           router.push('/');
@@ -219,9 +219,15 @@ export default function Main() {
   const handleMessageSend = async (conversationId = selectedConversationId) => {
     if (!newMessage.trim()) return;
     if (!apiKey) {
-      alert("You don’t have any API key selected");
+      alert("You don't have any API key selected");
       return;
     }
+
+    // Add user message immediately
+    const userMessage = newMessage;
+    setMessages(prevMessages => [...prevMessages, { content: userMessage, role: "user" }]);
+    setNewMessage("");
+
     if (!conversationId) {
       conversationId = await handleNewChat();
       if (!conversationId) {
@@ -229,6 +235,9 @@ export default function Main() {
         return;
       }
     }
+
+    // Add empty bot message to show loading state
+    setMessages(prevMessages => [...prevMessages, { content: "", role: "bot" }]);
 
     const response = await fetchWithAuth(
       `${config.api_url}/chat/sendMessage/`,
@@ -238,7 +247,7 @@ export default function Main() {
         body: JSON.stringify({
           conversation_id: conversationId,
           apikey_nickname: apiKey,
-          content: newMessage,
+          content: userMessage,
           model: model,
         }),
       }
@@ -248,14 +257,6 @@ export default function Main() {
       const reader = response.body.getReader();
       let decoder = new TextDecoder();
       let streamedMessage = "";
-
-      // Update messages state to include the new user message
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { content: newMessage, role: "user" },
-        { content: "", role: "bot" },
-      ]);
-      setNewMessage("");
 
       // Read the response stream
       while (true) {
@@ -271,14 +272,15 @@ export default function Main() {
         });
       }
     } else {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
+      // Replace empty bot message with error message
+      setMessages((prevMessages) => {
+        const updatedMessages = [...prevMessages];
+        updatedMessages[updatedMessages.length - 1] = {
           content: "You need to activate a valid API key to send messages",
           role: "bot",
-        },
-      ]);
-      setNewMessage("");
+        };
+        return updatedMessages;
+      });
     }
   };
 
@@ -344,7 +346,7 @@ export default function Main() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`
         },
-        body: JSON.stringify({ id: chatId }),
+        body: JSON.stringify({ conversation_id: chatId }),
       });
 
       if (response.ok) {
