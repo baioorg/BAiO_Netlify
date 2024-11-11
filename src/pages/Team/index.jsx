@@ -92,8 +92,9 @@ function ProfileCard({ name, role, image, onClick }) {
   return (
     <div className={styles.profilecard} onClick={onClick} style={{ cursor: "pointer" }}>
       <img src={image} alt={name} className={styles.profileimage} />
-      <h4>{name}</h4>
+      <h4>{name}
       <p className={styles.role}>{role}</p>
+      </h4>
     </div>
   );
 }

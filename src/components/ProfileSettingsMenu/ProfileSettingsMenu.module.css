@@ -121,3 +121,291 @@
 .infoitem span {
     color: #555;
 }
+
+.profileImage {
+    font-size: 5em;
+}
+
+
+@media screen and (max-width: 800px) {
+    .maincontent {
+        margin-top: 7em;
+        width: 100%;
+        height: 88vh;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        background-color: rgb(255, 255, 255);
+    }
+    
+    .leftmenu {
+        width: 20%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        background-color: #dbdbdb;
+        padding: 1em 0;
+    }
+    
+    .leftmenu .menubutton {
+        width: 15em;
+        padding: 0.5em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1em;
+        background-color: rgb(160, 160, 160);
+        border-radius: 0.5em;
+        margin: 0 1em;
+    }
+    
+    .previouschats {
+        width: 100%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1em;
+        border-top: 1px solid rgb(76, 76, 76);
+    }
+    
+    .previouschats ul {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5em;
+        padding: 1em;
+        overflow-y: auto;
+    }
+    
+    .previouschats ul li {
+        display: flex;
+        width: 100%;
+        padding: 0.5em;
+        background-color: rgb(255, 255, 255);
+        border: 0.5px solid rgb(76, 76, 76);
+        border-radius: 0.5em;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .chatwindow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        height: 100%;
+    }
+    
+    .chatmessages {
+        display: flex;
+        flex-grow: 1;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1em;
+        overflow-y: auto;
+        background-color: rgb(255, 255, 255);
+    }
+    
+    .chatinput {
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 0.2em;
+        background-color: #fff;
+        border-radius: 0.5em;
+        margin-bottom: 0.5em;
+        border: 1px solid rgb(76, 76, 76);
+    }
+    
+    .chatinput input {
+        display: flex;
+        flex-grow: 1;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        border: none;
+    }
+    
+    .chatinput input:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    
+    .chatinput button {
+        border-radius: 0.5em;
+        margin-right: 0.5em;
+    }
+    .messagecontainer {
+        display: flex;
+        flex-direction: column; /* Changed to column for stacking messages */
+        align-items: flex-start; /* Align messages to the start by default */
+        gap: 1em;
+        width: 90%;
+        padding: 1em;
+    }
+    
+    .message {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1em;
+        padding: 0.5em;
+        border-radius: 0.5em;
+        max-width: 80%;
+        word-wrap: break-word;
+        font-size: 18px;
+    }
+    
+    /* Bot message stays on the left */
+    .botmessage {
+        background-color: rgb(255, 255, 255);
+    }
+    
+    .usermessage {
+        background-color: #184B35;
+        margin-left: auto; 
+        color: rgb(255, 255, 255);
+    }
+}
+  
+  @media screen and (max-width: 480px) {
+    .profileSettings {
+        position:absolute; 
+        top: 35em; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
+        background-color: #F5F5F5;
+        border: 3px solid #184B36; 
+        border-radius: 0.5em; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        padding: 1em; 
+        width: 90%; 
+        max-width: 800px;
+        z-index: 1001; 
+    }
+    
+    .profileMenu {
+        display:flex;
+        flex-direction: column;
+        gap: 2em;
+        padding: 2em 0;
+    }
+    
+    .menuHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0em; 
+    }
+    
+    .menuHeader h1 {
+        font-size: 2em;
+        color: #000000;
+        margin: 0;
+    }
+    
+    .menuHeader button {
+        background: none;
+        border: none;
+        font-size: 1.5em;
+        cursor: pointer;
+        color: #000000; 
+        transition: color 0.3s ease, background-color 0.3s ease;
+        border-radius: 50%; 
+        padding: 0.2em;
+    }
+    
+    .menuHeader button:hover {
+        background-color: #E0E0E0; 
+    }
+    
+    .profilemenu hr {
+        border: none;
+        border-top: 2px solid #184B36; 
+        margin: 1em 0;
+    }
+    
+    .content {
+        display: flex;
+        flex-direction: row;
+        gap: 2em; 
+    }
+    
+    .buttonSection {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5em; 
+        flex: 1; 
+    }
+    
+    .editButton {
+        width: 100%;
+        padding: 0.5em 1em;
+        background-color: #E0E0E0;
+        border: none;
+        border-radius: 25px;
+        font-size: 1em;
+    }
+    
+    .editButton:hover {
+        background-color: #dbdbdb; 
+    }
+    
+    #deleteButton {
+        width: 100%;
+        padding: 0.5em 1em;    
+        background-color: #E0E0E0; 
+        color: red; 
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 1em;
+    }
+    
+    #deleteButton:hover {
+        background-color: red; 
+        color: #fff; 
+    }
+    
+    .informationSection {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em; 
+        flex: 2;
+    }
+    
+    .infoitem {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em; 
+        text-align: center;
+    }
+    
+    .infoitem strong {
+        width: 150px; 
+        color: #333; 
+    }
+    
+    .infoitem span {
+        color: #555;
+    }
+
+    .profileImage {
+        font-size: 5em;
+    }
+}
