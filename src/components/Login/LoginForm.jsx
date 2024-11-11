@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./LoginPage.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import config from '../../config/config.json';
 
 export default function LogInForm() {
   const [username, setNewUsername] = useState("");
@@ -12,7 +13,7 @@ export default function LogInForm() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-        const response = await fetch("http://127.0.0.1:8000/user/auth/", {
+        const response = await fetch(`${config.api_url}/user/auth/`, {
             method: "POST",
             headers: 
             {
@@ -47,7 +48,7 @@ export default function LogInForm() {
 
   async function fetchApiKeys(accessToken) {
     try {
-      const apiKeyResponse = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+      const apiKeyResponse = await fetch(`${config.api_url}/chat/getApiKeys/`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -57,11 +58,7 @@ export default function LogInForm() {
 
       if (apiKeyResponse.ok) {
         const apiKeys = await apiKeyResponse.json();
-
-        // Log the API keys to check if they are received
         console.log("API Keys:", apiKeys);
-
-        // Store the API keys in localStorage
         localStorage.setItem("api_keys", JSON.stringify(apiKeys));
       } else {
         console.error("Failed to retrieve API keys");

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FaUserCircle } from 'react-icons/fa';
 import styles from "./ProfileSettingsMenu.module.css";
+import config from '../../config/config.json';
 
 export default function ProfileSettingsMenu({type = 'profileSettings', closeProfileSettings}) {
     const [profileInfo, setProfileInfo] = useState({
@@ -28,7 +29,7 @@ export default function ProfileSettingsMenu({type = 'profileSettings', closeProf
             }
     
             try {
-                const response = await fetch("http://127.0.0.1:8000/user/getInfo/", {
+                const response = await fetch(`${config.api_url}/user/getInfo/`, {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`, 
@@ -72,7 +73,7 @@ export default function ProfileSettingsMenu({type = 'profileSettings', closeProf
         }
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/user/updateInfo/", {
+            const response = await fetch(`${config.api_url}/user/updateInfo/`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,

@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
-import { FaGithub, FaUserCircle } from "react-icons/fa";
+import { FaGithub, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import SettingsMenu from "../SettingsMenu/SettingsMenu";
 import ProfileSettingsMenu from "../ProfileSettingsMenu/ProfileSettingsMenu";
 
@@ -12,6 +12,7 @@ export default function Header({ type = "header" }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProfileSettingsOpen, setIsProfileSettingsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   function toggleDropdown() {
     setIsDropdownOpen((prevstate) => !prevstate);
@@ -43,6 +44,13 @@ export default function Header({ type = "header" }) {
     setIsDropdownOpen(false);
   }
 
+  function toggleMobileMenu() {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsDropdownOpen(false);
+    setIsSettingsOpen(false);
+    setIsProfileSettingsOpen(false);
+  }
+
   return (
     <div>
       <header className={styles.navbar}>
@@ -50,12 +58,23 @@ export default function Header({ type = "header" }) {
           <Link href="/" className={styles.navbarLink}>
             <h1>BAiO</h1>
           </Link>
+          <button
+            className={styles.mobileMenuButton}
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? (
+              <FaTimes color="#ffffff" size="1.5em" />
+            ) : (
+              <FaBars color="#ffffff" size="1.5em" />
+            )}
+          </button>
+        </div>
+
+        <div className={`${styles.navbarRight} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
           <Link href="/Main" className={styles.navbarLink}>
             New Chat
           </Link>
-        </div>
-
-        <div className={styles.navbarRight}>
           <Link
             href="https://github.com/baioorg/"
             target="_blank"

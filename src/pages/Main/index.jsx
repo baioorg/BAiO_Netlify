@@ -7,6 +7,8 @@ import { IoIosSend, IoMdMenu } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
 import { FiCheck } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
+import config from '../../config/config.json';
 
 
 export default function Main() {
@@ -48,25 +50,18 @@ export default function Main() {
   }, [accessToken]);
 
   const fetchApiKeys = async () => {
-    if (!accessToken) return;
-
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+      const response = await fetch(`${config.api_url}/chat/getApiKeys/`, {
         method: "GET",
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { 
+          Authorization: `Bearer ${localStorage.getItem("access_token")}` 
+        },
       });
 
       if (response.ok) {
-        const apiKeys = await response.json();
-        setApiKeys(apiKeys);
-        localStorage.setItem("api_keys", JSON.stringify(apiKeys)); // Store in localStorage
-
-        if (apiKeys.length > 0) {
-          setApiKey(apiKeys[0].nickname);
-          setModel(apiKeys[0].provider.models[0]?.name || "");
-        }
-      } else {
-        console.error("Failed to fetch API keys from server");
+        const data = await response.json();
+        setApiKeys(data);
+        localStorage.setItem("api_keys", JSON.stringify(data));
       }
     } catch (error) {
       console.error("Error fetching API keys:", error);
@@ -80,7 +75,7 @@ export default function Main() {
       return null;
     }
     try {
-      const response = await fetch("http://127.0.0.1:8000/user/refresh/", {
+      const response = await fetch(`${config.api_url}/user/refresh/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refresh: refreshToken }),
@@ -123,7 +118,7 @@ export default function Main() {
 
   const fetchConversations = useCallback(async () => {
     const response = await fetchWithAuth(
-      "http://127.0.0.1:8000/chat/getConversations/",
+      `${config.api_url}/chat/getConversations/`,
       {
         method: "GET",
       }
@@ -151,7 +146,7 @@ export default function Main() {
 
   const fetchConversation = async (conversationId) => {
     const response = await fetchWithAuth(
-      `http://127.0.0.1:8000/chat/getConversation/?conversation_id=${conversationId}`,
+      `${config.api_url}/chat/getConversation/?conversation_id=${conversationId}`,
       { method: "GET" }
     );
     if (response && response.ok) {
@@ -166,7 +161,7 @@ export default function Main() {
 
   const handleNewChat = async () => {
     const response = await fetchWithAuth(
-      "http://127.0.0.1:8000/chat/createConversation/",
+      `${config.api_url}/chat/createConversation/`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -200,7 +195,7 @@ export default function Main() {
     }
 
     const response = await fetchWithAuth(
-      "http://127.0.0.1:8000/chat/sendMessage/",
+      `${config.api_url}/chat/sendMessage/`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -277,7 +272,7 @@ export default function Main() {
     if (!editedTitle.trim()) return;
 
     const response = await fetchWithAuth(
-      "http://127.0.0.1:8000/chat/renameConversation/",
+      `${config.api_url}/chat/renameConversation/`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -301,11 +296,48 @@ export default function Main() {
     }
   };
 
+  const handleDeleteConversation = async (chatId, e) => {
+    e.stopPropagation();
+    
+    if (!window.confirm("Are you sure you want to delete this conversation?")) return;
+
+    try {
+      const response = await fetch(`${config.api_url}/chat/deleteConversation/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        },
+        body: JSON.stringify({ id: chatId }),
+      });
+
+      if (response.ok) {
+        // Remove the deleted conversation from the state
+        setPreviousChats(prevChats => prevChats.filter(chat => chat.id !== chatId));
+        
+        // If the deleted conversation was selected, clear the messages and selection
+        if (selectedConversationId === chatId) {
+          setSelectedConversationId(null);
+          setMessages([]);
+        }
+      } else {
+        console.error("Failed to delete conversation");
+      }
+    } catch (error) {
+      console.error("Error deleting conversation:", error);
+    }
+  };
+
   return (
     <div className={styles.mainpage}>
       <div className={styles.maincontent}>
         <Header />
-        {isSettingsOpen && <SettingsMenu closeSettings={closeSettings} />}
+        {isSettingsOpen && (
+          <SettingsMenu 
+            closeSettings={closeSettings} 
+            onApiKeyAdded={fetchApiKeys}
+          />
+        )}
         <div className={`${styles.leftmenu} ${isMenuOpen ? styles.open : ""}`}>
           <button onClick={handleNewChat} className={styles.menubutton}>
             New Chat
@@ -380,14 +412,21 @@ export default function Main() {
                       </>
                     ) : (
                       <>
-                        <span>{chat.title}</span>
-                        <CiEdit
-                          size={24}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleTitleEdit(chat.id, chat.title);
-                          }}
-                        />
+                        <span className={styles.chatTitle}>{chat.title}</span>
+                        <div className={styles.chatIcons}>
+                          <CiEdit
+                            size={24}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleTitleEdit(chat.id, chat.title);
+                            }}
+                          />
+                          <MdDelete
+                            size={24}
+                            onClick={(e) => handleDeleteConversation(chat.id, e)}
+                            className={styles.deleteIcon}
+                          />
+                        </div>
                       </>
                     )}
                   </li>
