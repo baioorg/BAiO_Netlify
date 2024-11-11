@@ -24,7 +24,7 @@
   }
 
   .navbarLink {
-    font-size:2em;
+    font-size:1.5em;
     color: #FFFFFF;
     text-decoration: none;
     display: flex;
@@ -32,11 +32,20 @@
     flex-direction: row;
     align-items: center;
     gap: 0.2em;
-    
+  }
+
+  .githubIcon {
+    color: #ffffff; 
+    font-size: 1em;
+  }
+
+  .profileButton {
+    color: white;
+    font-size: 1em;
   }
 
   .navbar h1 {
-    font-size: 2.3em;
+    font-size: 2em;
     font-family: 'Roboto', sans-serif;
   }
 
@@ -95,5 +104,6 @@
     .profileButton svg {
       width: 2em;
       height: 2em;
+ 
     }
   }

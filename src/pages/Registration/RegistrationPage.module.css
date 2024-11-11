@@ -48,3 +48,17 @@
 .btn:focus-visible {
     background: rgb(121, 121, 121);
   }
+
+  @media screen and (max-width: 800px) {
+    .regbracket {  
+        margin: 5em auto;
+       
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .regbracket {  
+        margin: 1em auto;
+       
+    }
+  }
