@@ -9,9 +9,11 @@ import { FaCheck } from "react-icons/fa6";
 import { FiCheck } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import config from '../../config/config.json';
+import { useRouter } from 'next/router';
 
 
 export default function Main() {
+  const router = useRouter();
   const [apiKey, setApiKey] = useState("");
   const [model, setModel] = useState("");
   const [previousChats, setPreviousChats] = useState([]);
@@ -27,11 +29,45 @@ export default function Main() {
 
   // Fetch the access token from localStorage
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("access_token");
-      setAccessToken(token);
-    }
-  }, []);
+    const validateAndSetToken = async () => {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("access_token");
+
+        console.log(token);
+        
+        if (!token) {
+          router.push('/');
+          return;
+        }
+
+        try {
+          const response = await fetch(`${config.api_url}/user/validateToken/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok || !data.valid) {
+            localStorage.removeItem("access_token");
+            router.push('/');
+            return;
+          }
+
+          setAccessToken(token);
+        } catch (error) {
+          console.error('Token validation failed:', error);
+          localStorage.removeItem("access_token");
+          router.push('/');
+        }
+      }
+    };
+
+    validateAndSetToken();
+  }, [router]);
 
   // Load API keys from localStorage or fetch from server if not found
   useEffect(() => {
