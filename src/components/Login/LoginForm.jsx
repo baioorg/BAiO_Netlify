@@ -3,10 +3,12 @@ import styles from "./LoginPage.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import config from '../../config/config.json';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function LogInForm() {
   const [username, setNewUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
 
@@ -92,12 +94,22 @@ export default function LogInForm() {
         </div>
         <div className={styles.formrow}>
           <label htmlFor="password">Password</label>
-          <input
-            value={password}
-            onChange={(password) => setPassword(password.target.value)}
-            type="password"
-            id="password"
-          />
+          <div className={styles.passwordContainer}>
+            <input
+              value={password}
+              onChange={(password) => setPassword(password.target.value)}
+              type={showPassword ? "text" : "password"}
+              id="password"
+              autoComplete="off"
+            />
+            <button
+              type="button"
+              className={styles.passwordToggle}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
         </div>
         <button className={styles.btn} type="submit">
           Sign In
