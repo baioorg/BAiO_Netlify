@@ -2,17 +2,20 @@ import { useState } from "react";
 import styles from "./LoginPage.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import config from '../../config/config.json';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function LogInForm() {
   const [username, setNewUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
 
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-        const response = await fetch("http://127.0.0.1:8000/user/auth/", {
+        const response = await fetch(`${config.api_url}/user/auth/`, {
             method: "POST",
             headers: 
             {
@@ -47,7 +50,7 @@ export default function LogInForm() {
 
   async function fetchApiKeys(accessToken) {
     try {
-      const apiKeyResponse = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+      const apiKeyResponse = await fetch(`${config.api_url}/chat/getApiKeys/`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -57,11 +60,7 @@ export default function LogInForm() {
 
       if (apiKeyResponse.ok) {
         const apiKeys = await apiKeyResponse.json();
-
-        // Log the API keys to check if they are received
         console.log("API Keys:", apiKeys);
-
-        // Store the API keys in localStorage
         localStorage.setItem("api_keys", JSON.stringify(apiKeys));
       } else {
         console.error("Failed to retrieve API keys");
@@ -95,12 +94,22 @@ export default function LogInForm() {
         </div>
         <div className={styles.formrow}>
           <label htmlFor="password">Password</label>
-          <input
-            value={password}
-            onChange={(password) => setPassword(password.target.value)}
-            type="password"
-            id="password"
-          />
+          <div className={styles.passwordContainer}>
+            <input
+              value={password}
+              onChange={(password) => setPassword(password.target.value)}
+              type={showPassword ? "text" : "password"}
+              id="password"
+              autoComplete="off"
+            />
+            <button
+              type="button"
+              className={styles.passwordToggle}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
+          </div>
         </div>
         <button className={styles.btn} type="submit">
           Sign In

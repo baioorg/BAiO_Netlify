@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import styles from "./SettingsMenu.module.css";
 import { useRouter } from "next/navigation";
+import config from '../../config/config.json';
 
-export default function SettingsMenu({ type = "settings", closeSettings }) {
+export default function SettingsMenu({ type = "settings", closeSettings, onApiKeyAdded }) {
   const [name, setName] = useState("");
   const [apiProvider, setApiProvider] = useState("");
   const [apiKey, setApiKey] = useState("");
@@ -26,7 +27,7 @@ export default function SettingsMenu({ type = "settings", closeSettings }) {
     if (accessToken) {
       const fetchProviders = async () => {
         try {
-          const response = await fetch("http://127.0.0.1:8000/chat/getLLMProviders/", {
+          const response = await fetch(`${config.api_url}/chat/getLLMProviders/`, {
             method: "GET",
             headers: { Authorization: `Bearer ${accessToken}` },
           });
@@ -50,7 +51,7 @@ export default function SettingsMenu({ type = "settings", closeSettings }) {
 
   const fetchAndStoreApiKeys = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat/getApiKeys/", {
+      const response = await fetch(`${config.api_url}/chat/getApiKeys/`, {
         method: "GET",
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -69,7 +70,7 @@ export default function SettingsMenu({ type = "settings", closeSettings }) {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("http://127.0.0.1:8000/chat/addAPIKey/", {
+      const response = await fetch(`${config.api_url}/chat/addAPIKey/`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -82,13 +83,12 @@ export default function SettingsMenu({ type = "settings", closeSettings }) {
         const data = await response.json();
         alert(`API key named ${data.nickname} successfully registered`);
         await fetchAndStoreApiKeys(); // Fetch all API keys and store them in local storage
-        closeSettings();
-
-        if (router.pathname === "/Main") {
-          router.reload();
-        } else {
-          router.push("/Main");
+        
+        if (onApiKeyAdded) {
+          onApiKeyAdded();
         }
+        
+        closeSettings();
       } else {
         alert("API key registration failed");
       }

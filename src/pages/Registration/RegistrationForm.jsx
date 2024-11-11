@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import Select from "react-select";
 import countryList from "react-select-country-list";
+import config from '../../config/config.json';  // Add this import
 
 export default function RegistrationForm() {
   const [firstName, setFirstName] = useState("");
@@ -45,7 +46,7 @@ export default function RegistrationForm() {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/user/register/", {
+      const response = await fetch(`${config.api_url}/user/register/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

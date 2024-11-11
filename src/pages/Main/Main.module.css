@@ -163,6 +163,33 @@
     padding: 1em;
 }
 
+.chatTitle {
+    max-width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chatIcons {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+}
+
+.deleteIcon {
+    color: #4e4e4e;
+    cursor: pointer;
+}
+
+.deleteIcon:hover {
+    color: #cc0000;
+}
+
+.titleInput {
+    max-width: 50%;
+    margin-right: auto;
+}
+
 @media screen and (max-width: 768px) {
     .maincontent {
         flex-direction: column;
