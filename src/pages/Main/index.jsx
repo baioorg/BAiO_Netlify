@@ -5,6 +5,9 @@ import Header from "../../components/Header/Header";
 import SettingsMenu from "../../components/SettingsMenu/SettingsMenu";
 import { IoIosSend, IoMdMenu } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
+import { FaCheck } from "react-icons/fa6";
+import { FiCheck } from "react-icons/fi";
+
 
 export default function Main() {
   const [apiKey, setApiKey] = useState("");
@@ -155,6 +158,7 @@ export default function Main() {
       const data = await response.json();
       setMessages(data.messages);
       setSelectedConversationId(conversationId);
+      setIsMenuOpen(false); // Close menu after selecting a conversation
     } else {
       console.error("Error fetching conversation");
     }
@@ -174,6 +178,7 @@ export default function Main() {
       setPreviousChats([...previousChats, data]);
       setSelectedConversationId(data.id);
       setMessages(data.messages || []);
+      setIsMenuOpen(false); // Close menu after creating new chat
       return data.id;
     } else {
       console.error("Error creating conversation");
@@ -342,24 +347,46 @@ export default function Main() {
             <ul>
               {Array.isArray(previousChats) && previousChats.length > 0 ? (
                 previousChats.map((chat, index) => (
-                  <li key={index}>
+                  <li 
+                    key={index} 
+                    onClick={() => {
+                      if (isEditing !== chat.id) {
+                        fetchConversation(chat.id);
+                      }
+                    }}
+                    className={styles.chatItem}
+                  >
                     {isEditing === chat.id ? (
-                      <input
-                        type="text"
-                        value={editedTitle}
-                        onChange={(e) => setEditedTitle(e.target.value)}
-                        onKeyPress={(e) => {
-                          if (e.key === "Enter") handleSaveTitle(chat.id);
-                        }}
-                      />
+                      <>
+                        <input
+                          type="text"
+                          value={editedTitle}
+                          onChange={(e) => setEditedTitle(e.target.value)}
+                          onClick={e => e.stopPropagation()}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                              handleSaveTitle(chat.id);
+                            }
+                          }}
+                          autoFocus
+                        />
+                        <FiCheck
+                          size={24}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleSaveTitle(chat.id);
+                          }}
+                        />
+                      </>
                     ) : (
                       <>
-                        <span onClick={() => fetchConversation(chat.id)}>
-                          {chat.title}
-                        </span>
+                        <span>{chat.title}</span>
                         <CiEdit
                           size={24}
-                          onClick={() => handleTitleEdit(chat.id, chat.title)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleTitleEdit(chat.id, chat.title);
+                          }}
                         />
                       </>
                     )}
