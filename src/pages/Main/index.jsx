@@ -223,11 +223,10 @@ export default function Main() {
       return;
     }
 
-    // Add user message immediately
     const userMessage = newMessage;
-    setMessages(prevMessages => [...prevMessages, { content: userMessage, role: "user" }]);
-    setNewMessage("");
+    setNewMessage(""); // Clear input early for better UX
 
+    // Ensure we have a valid conversation ID first
     if (!conversationId) {
       conversationId = await handleNewChat();
       if (!conversationId) {
@@ -235,6 +234,9 @@ export default function Main() {
         return;
       }
     }
+
+    // Now add the user message after we have a valid conversation
+    setMessages(prevMessages => [...prevMessages, { content: userMessage, role: "user" }]);
 
     // Add empty bot message to show loading state
     setMessages(prevMessages => [...prevMessages, { content: "", role: "bot" }]);

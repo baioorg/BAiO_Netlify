@@ -4,7 +4,8 @@ import React, { useState, useRef } from "react";
 import styles from "./Header.module.css";
 import Link from "next/link";
 import ProfileDropdown from "../ProfileDropdown/ProfileDropdown";
-import { FaGithub, FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { PiDna } from "react-icons/pi";
+import { FaGithub, FaUserCircle, FaBars, FaTimes, FaDna } from "react-icons/fa";
 import SettingsMenu from "../SettingsMenu/SettingsMenu";
 import ProfileSettingsMenu from "../ProfileSettingsMenu/ProfileSettingsMenu";
 import config from '../../config/config.json';
@@ -90,7 +91,7 @@ export default function Header({ type = "header" }) {
       <header className={styles.navbar}>
         <div className={styles.navbarLeft}>
           <Link href="/" className={styles.navbarLink} onClick={handleLogoClick}>
-            <h1>BAiO</h1>
+            <h1><PiDna size="0.8em" /> Baio</h1>
           </Link>
           <button
             className={styles.mobileMenuButton}
