@@ -17,7 +17,7 @@
     margin: 9em auto;
     background-color: #fff;
     color: black;
-    padding: 1.5em;
+    padding: 1.5em; 
     border-radius: 1em;
     display: flex;
     flex-direction: column;
@@ -119,4 +119,14 @@
 }
 
 
-
+@media screen and (max-width: 768px) {
+    .logincontent {
+        margin: 5em auto;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .logincontent {
+        margin: 5em auto;
+    }
+  }

@@ -37,7 +37,6 @@ export default function LogInForm() {
             // Fetch and store API keys
             await fetchApiKeys(data.access);
 
-            alert(`Login successful: ${data.access}`);
             router.push("/Main");
         } else {
             alert(`Login failed: ${data.detail}`);

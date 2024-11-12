@@ -5,10 +5,11 @@
     padding: 0.1em 1.5em;
     background-color: #184B36;
     font-family: 'Roboto', sans-serif;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+
   }
 
   .navbarLeft {
@@ -24,7 +25,7 @@
   }
 
   .navbarLink {
-    font-size:2em;
+    font-size:1.5em;
     color: #FFFFFF;
     text-decoration: none;
     display: flex;
@@ -32,12 +33,30 @@
     flex-direction: row;
     align-items: center;
     gap: 0.2em;
-    
+  }
+
+  .githubIcon {
+    color: #ffffff; 
+    font-size: 1em;
+  }
+
+  .profileButton {
+    color: white;
+    font-size: 1em;
   }
 
   .navbar h1 {
-    font-size: 2.3em;
+    font-size: 2em;
     font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+  }
+
+  .navbar h1 svg {
+    font-size: 1em;
+    margin: auto;
+
   }
 
   .mobileMenuButton {
@@ -95,5 +114,10 @@
     .profileButton svg {
       width: 2em;
       height: 2em;
+ 
+    }
+
+    .navbar h1 svg {
+      font-size: 0.9em;
     }
   }
