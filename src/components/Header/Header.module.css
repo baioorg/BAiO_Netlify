@@ -5,10 +5,11 @@
     padding: 0.1em 1.5em;
     background-color: #184B36;
     font-family: 'Roboto', sans-serif;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+
   }
 
   .navbarLeft {
@@ -47,6 +48,15 @@
   .navbar h1 {
     font-size: 2em;
     font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+  }
+
+  .navbar h1 svg {
+    font-size: 1em;
+    margin: auto;
+
   }
 
   .mobileMenuButton {
@@ -105,5 +115,9 @@
       width: 2em;
       height: 2em;
  
+    }
+
+    .navbar h1 svg {
+      font-size: 0.9em;
     }
   }

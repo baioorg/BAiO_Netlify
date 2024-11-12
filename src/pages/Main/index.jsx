@@ -9,9 +9,11 @@ import { FaCheck } from "react-icons/fa6";
 import { FiCheck } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import config from '../../config/config.json';
+import { useRouter } from 'next/router';
 
 
 export default function Main() {
+  const router = useRouter();
   const [apiKey, setApiKey] = useState("");
   const [model, setModel] = useState("");
   const [previousChats, setPreviousChats] = useState([]);
@@ -27,11 +29,45 @@ export default function Main() {
 
   // Fetch the access token from localStorage
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("access_token");
-      setAccessToken(token);
-    }
-  }, []);
+    const validateAndSetToken = async () => {
+      if (typeof window !== "undefined") {
+        const token = localStorage.getItem("access_token");
+
+        console
+        
+        if (!token) {
+          router.push('/');
+          return;
+        }
+
+        try {
+          const response = await fetch(`${config.api_url}/user/validateToken/`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token })
+          });
+
+          const data = await response.json();
+
+          if (!response.ok || !data.valid) {
+            localStorage.removeItem("access_token");
+            router.push('/');
+            return;
+          }
+
+          setAccessToken(token);
+        } catch (error) {
+          console.error('Token validation failed:', error);
+          localStorage.removeItem("access_token");
+          router.push('/');
+        }
+      }
+    };
+
+    validateAndSetToken();
+  }, [router]);
 
   // Load API keys from localStorage or fetch from server if not found
   useEffect(() => {
@@ -183,9 +219,14 @@ export default function Main() {
   const handleMessageSend = async (conversationId = selectedConversationId) => {
     if (!newMessage.trim()) return;
     if (!apiKey) {
-      alert("You don’t have any API key selected");
+      alert("You don't have any API key selected");
       return;
     }
+
+    const userMessage = newMessage;
+    setNewMessage(""); // Clear input early for better UX
+
+    // Ensure we have a valid conversation ID first
     if (!conversationId) {
       conversationId = await handleNewChat();
       if (!conversationId) {
@@ -193,6 +234,12 @@ export default function Main() {
         return;
       }
     }
+
+    // Now add the user message after we have a valid conversation
+    setMessages(prevMessages => [...prevMessages, { content: userMessage, role: "user" }]);
+
+    // Add empty bot message to show loading state
+    setMessages(prevMessages => [...prevMessages, { content: "", role: "bot" }]);
 
     const response = await fetchWithAuth(
       `${config.api_url}/chat/sendMessage/`,
@@ -202,7 +249,7 @@ export default function Main() {
         body: JSON.stringify({
           conversation_id: conversationId,
           apikey_nickname: apiKey,
-          content: newMessage,
+          content: userMessage,
           model: model,
         }),
       }
@@ -212,14 +259,6 @@ export default function Main() {
       const reader = response.body.getReader();
       let decoder = new TextDecoder();
       let streamedMessage = "";
-
-      // Update messages state to include the new user message
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { content: newMessage, role: "user" },
-        { content: "", role: "bot" },
-      ]);
-      setNewMessage("");
 
       // Read the response stream
       while (true) {
@@ -235,14 +274,15 @@ export default function Main() {
         });
       }
     } else {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
+      // Replace empty bot message with error message
+      setMessages((prevMessages) => {
+        const updatedMessages = [...prevMessages];
+        updatedMessages[updatedMessages.length - 1] = {
           content: "You need to activate a valid API key to send messages",
           role: "bot",
-        },
-      ]);
-      setNewMessage("");
+        };
+        return updatedMessages;
+      });
     }
   };
 
@@ -308,7 +348,7 @@ export default function Main() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("access_token")}`
         },
-        body: JSON.stringify({ id: chatId }),
+        body: JSON.stringify({ conversation_id: chatId }),
       });
 
       if (response.ok) {
