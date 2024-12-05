@@ -22,9 +22,6 @@ export default function ProfileDropDown({type = 'dropdown', openSettings, openPr
                 <button className={styles.dropdownButton} onClick={openProfileSettings}><FaUserCircle size="1.3em"/>Profile</button>
                 <button className={styles.dropdownButton} onClick={openSettings}><CiSettings size="1.3em"/>Settings</button>
                 <button className={styles.dropdownButton}><FiMoon size="1.3em"/>Swith to Dark Mode</button>
-            </div>
-            <div className={styles.dropdownButton}>
-                <hr className={styles.dropdownDivider}/>
                 <button 
                     className={styles.dropdownButton} 
                     onClick={handleSignOut}

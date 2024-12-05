@@ -121,12 +121,12 @@
 
 @media screen and (max-width: 768px) {
     .logincontent {
-        margin: 5em auto;
+        margin: 8em auto;
     }
   }
   
   @media screen and (max-width: 480px) {
     .logincontent {
-        margin: 5em auto;
+        margin: 8em auto;
     }
   }

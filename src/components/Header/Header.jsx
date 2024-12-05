@@ -53,6 +53,7 @@ export default function Header({ type = "header" }) {
     setIsDropdownOpen((prevstate) => !prevstate);
     setIsSettingsOpen(false);
     setIsProfileSettingsOpen(false);
+    setIsMobileMenuOpen(false);
   }
 
   function openSettings() {
@@ -90,37 +91,34 @@ export default function Header({ type = "header" }) {
     <div>
       <header className={styles.navbar}>
         <div className={styles.navbarLeft}>
-          <Link href="/" className={styles.navbarLink} onClick={handleLogoClick}>
+          <Link href="/" className={`${styles.navbarLink} ${styles.logo}`} onClick={handleLogoClick}>
             <h1><PiDna size="0.8em" /> Baio</h1>
           </Link>
+        </div>
+        <div className={styles.sectionRight}>
           <button
             className={styles.mobileMenuButton}
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
-            {isMobileMenuOpen ? (
-              <FaTimes color="#ffffff" size="1.5em" />
-            ) : (
-              <FaBars color="#ffffff" size="1.5em" />
-            )}
+            <FaBars color="#ffffff" size="1.5em" />
           </button>
-        </div>
-
-        <div className={`${styles.navbarRight} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
-          <Link
-            href="https://github.com/baioorg/"
-            target="_blank"
-            className={styles.navbarLink}
-          >
-            <FaGithub className = {styles.githubIcon} />
-            Github
-          </Link>
-          <Link href="/About" className={styles.navbarLink}>
-            About
-          </Link>
-          <Link href="/Team" className={styles.navbarLink}>
-            Contact
-          </Link>
+          <div className={`${isMobileMenuOpen ? styles.mobileMenuOpen : styles.navbarRight}`}>
+            <Link
+              href="https://github.com/baioorg/"
+              target="_blank"
+              className={styles.navbarLink}
+            >
+              <FaGithub className={styles.githubIcon} />
+              Github
+            </Link>
+            <Link href="/About" className={styles.navbarLink}>
+              About
+            </Link>
+            <Link href="/Team" className={styles.navbarLink}>
+              Contact
+            </Link>
+          </div>
           <button
             onClick={toggleDropdown}
             className={styles.profileButton}
@@ -132,6 +130,7 @@ export default function Header({ type = "header" }) {
       </header>
       {isDropdownOpen && (
         <ProfileDropdown
+          className={styles.profileDropdown}
           openSettings={openSettings}
           openProfileSettings={openProfileSettings}
         />

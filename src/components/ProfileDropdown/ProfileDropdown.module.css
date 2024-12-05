@@ -1,16 +1,16 @@
 .dropdown {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    right: 0.2em;
-    top: 7.3em;
+    right: 0;
+    top: 4.6em;
     background-color: #F5F5F5;
-    border-radius: 2em;
+    border-radius: 10px;
     border: 0.15em solid #184B36;
-    height: 25em;
+    height: auto;
     width: 21em;
-    z-index: 50;
+    z-index: 1000;
 }
 
 .dropdownButton {
@@ -40,75 +40,39 @@
 
 @media screen and (max-width: 800px) {
     .dropdown {
-        position: absolute;
         display: flex;
+        align-items: flex-start;
+        position: fixed;
+        top: 4.8em;
+        left: 0;
+        right: 0;
         flex-direction: column;
-        justify-content: space-between;
-        right: 0.2em;
-        top: 3.5em;
-        background-color: #F5F5F5;
-        border-radius: 2em;
-        border: 0.15em solid #184B36;
-        height: 25em;
-        width: 21em;
-        z-index: 50;
+        padding: 1rem;
+        gap: 1rem;
+        z-index: 1000;
+        border-radius: 0em;
+        width: 102%;
+        height: auto;
     }
 
     .dropdownButton {
     
-        padding: 0.5em 0.5em;
-        border-radius: 25px;
+        padding: 0.3em;
+        border-radius: 10px;
         /*padding: 0.5em 1em;*/
         text-align: left;
         font-family: 'Roboto', sans-serif;
-        font-size: 1.4em;
+        font-size: 1.2em;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 0.7em;
-        
+    }
+
+    .dropdownDivider{
+        margin: 0;
+        height: auto;
+        padding: 0;
     }
   }
   
-  @media screen and (max-width: 480px) {
-    .dropdown {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    right: 0.2em;
-    top: 3.5em;
-    background-color: #F5F5F5;
-    border-radius: 2em;
-    border: 0.15em solid #184B36;
-    height: 15em;
-    width: 13em;
-    z-index: 50;
-}
-
-.dropdownButton {
-    
-    padding: 0.5em 0.5em;
-    border-radius: 25px;
-    /*padding: 0.5em 1em;*/
-    text-align: left;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.7em;
-    
-}
-
-.dropdownButton:hover {
-    background-color: #E0E0E0; /* Changes color on hover */
-}
-
-.dropdownDivider {
-    height: 0.15em;
-    margin-left: 3%;
-    margin-right: 3%;
-    background-color: #184B36;
-}
-  }
