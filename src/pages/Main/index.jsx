@@ -484,22 +484,28 @@ export default function Main() {
           <div className={styles.chatheader}>
             <IoMdMenu onClick={() => setIsMenuOpen(!isMenuOpen)} />
           </div>
-          <div className={styles.chatmessages}>
-            {messages.map((message, index) => (
-              <div key={index} className={styles.messagecontainer}>
-                <p
-                  className={`${styles.message} ${
-                    message.role === "user"
-                      ? styles.usermessage
-                      : styles.botmessage
-                  }`}
-                >
-                  {message.content}
-                </p>
+          <div className={`${styles.chatmessages} ${messages.length === 0 ? styles.emptyChat : ''}`}>
+            {messages.length === 0 ? (
+              <div className={styles.noMessages}>
+                <h2>Hello! How can I assist with genetic or bio data?</h2>
               </div>
-            ))}
+            ) : (
+              messages.map((message, index) => (
+                <div key={index} className={styles.messagecontainer}>
+                  <p
+                    className={`${styles.message} ${
+                      message.role === "user"
+                        ? styles.usermessage
+                        : styles.botmessage
+                    }`}
+                  >
+                    {message.content}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
-          <div className={styles.chatinput}>
+          <div className={`${styles.chatinput} ${messages.length === 0 ? styles.emptyChatInput : ''}`}>
             <input
               type="text"
               value={newMessage}
