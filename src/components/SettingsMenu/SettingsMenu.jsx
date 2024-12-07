@@ -80,8 +80,8 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
       });
 
       if (response.ok) {
-        const data = await response.json();
-        alert(`API key named ${data.nickname} successfully registered`);
+        await response.json();
+        alert(`API key successfully registered`);
         await fetchAndStoreApiKeys(); // Fetch all API keys and store them in local storage
         
         if (onApiKeyAdded) {
