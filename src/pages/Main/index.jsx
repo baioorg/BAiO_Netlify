@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 export default function Main() {
   const router = useRouter();
   const [apiKey, setApiKey] = useState("");
+  const [apiKeyID, setApiKeyID] = useState("");
   const [model, setModel] = useState("");
   const [previousChats, setPreviousChats] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -79,6 +80,7 @@ export default function Main() {
     ) {
       setApiKeys(storedApiKeys);
       setApiKey(storedApiKeys[0].nickname);
+      setApiKeyID(storedApiKeys[0].id)
       setModel(storedApiKeys[0].provider.models[0]?.name || "");
     } else {
       fetchApiKeys(); // Fetch API keys from the server if not in local storage
@@ -248,7 +250,7 @@ export default function Main() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           conversation_id: conversationId,
-          apikey_nickname: apiKey,
+          apikey_id: apiKeyID,
           content: userMessage,
           model: model,
         }),

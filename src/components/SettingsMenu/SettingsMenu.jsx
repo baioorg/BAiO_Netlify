@@ -8,7 +8,7 @@ import config from '../../config/config.json';
 
 export default function SettingsMenu({ type = "settings", closeSettings, onApiKeyAdded }) {
   const [name, setName] = useState("");
-  const [apiProvider, setApiProvider] = useState("");
+  const [apiProvider_id, setApiProviderId] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [accessToken, setAccessToken] = useState(null);
   const [providers, setProviders] = useState([]);
@@ -43,7 +43,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
 
   const handleProviderChange = (e) => {
     const selectedProviderId = e.target.value;
-    setApiProvider(selectedProviderId);
+    setApiProviderId(selectedProviderId);
 
     const selectedProvider = providers.find((provider) => provider.id === parseInt(selectedProviderId));
     setModels(selectedProvider ? selectedProvider.models : []);
@@ -76,7 +76,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, apiProvider, apiKey }),
+        body: JSON.stringify({ name, apiProvider_id, apiKey }),
       });
 
       if (response.ok) {
@@ -121,7 +121,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
         <select
           name="apiProvider"
           id="apiProviderInput"
-          value={apiProvider}
+          value={apiProvider_id}
           onChange={handleProviderChange}
         >
           <option value="">Select Provider</option>
