@@ -43,6 +43,7 @@ const FunctionCallBox = ({ content, isLoading }) => {
 const parseMessageContent = (content) => {
   // Check if the content contains function calls
   const functionCallMatch = content.match(/called_functions:\[(.*?)\]function_responses:\[(.*?)\](.*)/s);
+  const partialFunctionCallMatch = content.match(/called_functions:\[(.*?)/s)
   
   if (functionCallMatch) {
     return {
@@ -52,6 +53,14 @@ const parseMessageContent = (content) => {
       },
       message: functionCallMatch[3]
     };
+  } else if (partialFunctionCallMatch) {
+    return {
+      functionCalls: {
+        calls: partialFunctionCallMatch[1],
+        responses: null
+      },
+      message: null
+    }
   }
   
   return {
@@ -541,6 +550,7 @@ export default function Main() {
                 const parsedContent = parseMessageContent(message.content);
                 const isLastMessage = index === messages.length - 1;
                 const isEmptyLastMessage = isLastMessage && !message.content;
+
 
                 return (
                   <div key={index} className={styles.messagecontainer}>

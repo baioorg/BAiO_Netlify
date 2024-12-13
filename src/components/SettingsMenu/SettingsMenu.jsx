@@ -33,6 +33,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
           });
           const data = await response.json();
           setProviders(data);
+
         } catch (error) {
           console.error("Error fetching providers:", error);
         }
