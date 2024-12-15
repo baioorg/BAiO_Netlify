@@ -8,7 +8,8 @@ import config from '../../config/config.json';
 
 export default function SettingsMenu({ type = "settings", closeSettings, onApiKeyAdded }) {
   const [name, setName] = useState("");
-  const [apiProvider, setApiProvider] = useState("");
+  const [url, setllmUrl] = useState("https://api.openai.com/v1/");
+  const [apiProvider_id, setApiProviderId] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [accessToken, setAccessToken] = useState(null);
   const [providers, setProviders] = useState([]);
@@ -33,6 +34,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
           });
           const data = await response.json();
           setProviders(data);
+
         } catch (error) {
           console.error("Error fetching providers:", error);
         }
@@ -43,7 +45,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
 
   const handleProviderChange = (e) => {
     const selectedProviderId = e.target.value;
-    setApiProvider(selectedProviderId);
+    setApiProviderId(selectedProviderId);
 
     const selectedProvider = providers.find((provider) => provider.id === parseInt(selectedProviderId));
     setModels(selectedProvider ? selectedProvider.models : []);
@@ -76,7 +78,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, apiProvider, apiKey }),
+        body: JSON.stringify({ name, apiProvider_id, apiKey, url }),
       });
 
       if (response.ok) {
@@ -121,8 +123,9 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
         <select
           name="apiProvider"
           id="apiProviderInput"
-          value={apiProvider}
+          value={apiProvider_id}
           onChange={handleProviderChange}
+          required
         >
           <option value="">Select Provider</option>
           {providers.map((provider) => (
@@ -131,7 +134,19 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
             </option>
           ))}
         </select>
-
+        {apiProvider_id === "0" && (
+        <label htmlFor="llm_url">Custom URL</label>
+        )}
+        {apiProvider_id === "0" && (
+        <input 
+          name="llm_url"
+          id="llm_url_input"
+          placeholder="https://api.openai.com/v1/"
+          type="text"
+          onChange={(e) => setllmUrl(e.target.value)}
+          required
+        />
+        )}
         <label htmlFor="apiKey">API Key</label>
         <input
           name="apiKey"
@@ -139,6 +154,7 @@ export default function SettingsMenu({ type = "settings", closeSettings, onApiKe
           placeholder="12345"
           type="password"
           onChange={(e) => setApiKey(e.target.value)}
+          required
         />
 
         <button type="submit" id="submitButton">

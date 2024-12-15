@@ -1,20 +1,77 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
+import ReactMarkdown from 'react-markdown';
 import styles from "./Main.module.css";
 import Header from "../../components/Header/Header";
 import SettingsMenu from "../../components/SettingsMenu/SettingsMenu";
 import { IoIosSend, IoMdMenu } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
-import { FaCheck } from "react-icons/fa6";
+import { FaCheck, FaChevronDown, FaChevronUp } from "react-icons/fa6";
 import { FiCheck } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import config from '../../config/config.json';
 import { useRouter } from 'next/router';
 
+// Component to handle function calls display
+const FunctionCallBox = ({ content, isLoading }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className={styles.functionCallBox}>
+      <div 
+        className={styles.functionCallHeader} 
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <span>Function Call</span>
+        {isLoading ? (
+          <AiOutlineLoading3Quarters className={styles.loadingIcon} />
+        ) : (
+          isExpanded ? <FaChevronUp /> : <FaChevronDown />
+        )}
+      </div>
+      {isExpanded && (
+        <pre className={styles.functionCallContent}>
+          {content}
+        </pre>
+      )}
+    </div>
+  );
+};
+
+// Helper function to parse message content
+const parseMessageContent = (content) => {
+  // Check if the content contains function calls
+  const functionCallMatch = content.match(/called_functions:\[(.*?)\]function_responses:\[(.*?)\](.*)/s);
+  const partialFunctionCallMatch = content.match(/called_functions:\[(.*?)/s)
+  
+  if (functionCallMatch) {
+    return {
+      functionCalls: {
+        calls: functionCallMatch[1],
+        responses: functionCallMatch[2]
+      },
+      message: functionCallMatch[3]
+    };
+  } else if (partialFunctionCallMatch) {
+    return {
+      functionCalls: {
+        calls: partialFunctionCallMatch[1],
+        responses: null
+      },
+      message: null
+    }
+  }
+  
+  return {
+    message: content
+  };
+};
 
 export default function Main() {
   const router = useRouter();
   const [apiKey, setApiKey] = useState("");
+  const [apiKeyID, setApiKeyID] = useState("");
   const [model, setModel] = useState("");
   const [previousChats, setPreviousChats] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -32,8 +89,6 @@ export default function Main() {
     const validateAndSetToken = async () => {
       if (typeof window !== "undefined") {
         const token = localStorage.getItem("access_token");
-
-        console
         
         if (!token) {
           router.push('/');
@@ -79,6 +134,7 @@ export default function Main() {
     ) {
       setApiKeys(storedApiKeys);
       setApiKey(storedApiKeys[0].nickname);
+      setApiKeyID(storedApiKeys[0].id)
       setModel(storedApiKeys[0].provider.models[0]?.name || "");
     } else {
       fetchApiKeys(); // Fetch API keys from the server if not in local storage
@@ -216,6 +272,7 @@ export default function Main() {
       return null;
     }
   };
+
   const handleMessageSend = async (conversationId = selectedConversationId) => {
     if (!newMessage.trim()) return;
     if (!apiKey) {
@@ -248,7 +305,7 @@ export default function Main() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           conversation_id: conversationId,
-          apikey_nickname: apiKey,
+          apikey_id: apiKeyID,
           content: userMessage,
           model: model,
         }),
@@ -285,7 +342,6 @@ export default function Main() {
       });
     }
   };
-
 
   const openSettings = () => setIsSettingsOpen(true);
   const closeSettings = () => setIsSettingsOpen(false);
@@ -490,19 +546,37 @@ export default function Main() {
                 <h2>Hello! How can I assist with genetic or bio data?</h2>
               </div>
             ) : (
-              messages.map((message, index) => (
-                <div key={index} className={styles.messagecontainer}>
-                  <p
-                    className={`${styles.message} ${
-                      message.role === "user"
-                        ? styles.usermessage
-                        : styles.botmessage
-                    }`}
-                  >
-                    {message.content}
-                  </p>
-                </div>
-              ))
+              messages.map((message, index) => {
+                const parsedContent = parseMessageContent(message.content);
+                const isLastMessage = index === messages.length - 1;
+                const isEmptyLastMessage = isLastMessage && !message.content;
+
+
+                return (
+                  <div key={index} className={styles.messagecontainer}>
+                    <div
+                      className={`${styles.message} ${
+                        message.role === "user"
+                          ? styles.usermessage
+                          : styles.botmessage
+                      }`}
+                    >
+                      {parsedContent.functionCalls && (
+                        <FunctionCallBox 
+                          content={`Calls: ${parsedContent.functionCalls.calls}\nResponses: ${parsedContent.functionCalls.responses}`}
+                          isLoading={isEmptyLastMessage}
+                        />
+                      )}
+                      {parsedContent.message && (
+                        <ReactMarkdown>{parsedContent.message}</ReactMarkdown>
+                      )}
+                      {isEmptyLastMessage && (
+                        <AiOutlineLoading3Quarters className={styles.messageLoading} />
+                      )}
+                    </div>
+                  </div>
+                );
+              })
             )}
           </div>
           <div className={`${styles.chatinput} ${messages.length === 0 ? styles.emptyChatInput : ''}`}>
